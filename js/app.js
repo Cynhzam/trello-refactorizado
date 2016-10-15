@@ -20,6 +20,7 @@ window.addEventListener("load", cargarPagina);
     function agregarTarjeta(e){
     	e.preventDefault();
     	formulario.classList.add("none");
+    	lista.classList.remove("none");
 
     	var padre = this.parentElement.parentElement;
 
@@ -32,6 +33,7 @@ window.addEventListener("load", cargarPagina);
 
         input.value = "";
 
+        contenedorLista.classList.add("contenedor-lista");
         textoInput.classList.add("titulo-lista");
         linkTarjeta.classList.add("link-tarjeta");
 
@@ -42,5 +44,5 @@ window.addEventListener("load", cargarPagina);
         contenedorLista.insertBefore(lista, contenedorLista.children[0]);
         contenedorLista.insertBefore(formulario, contenedorLista.children[1]);
 
-        
+
     }
