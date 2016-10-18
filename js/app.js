@@ -67,7 +67,7 @@ window.addEventListener("load", cargarPagina);
 
         this.classList.add("none");
 
-        var nuevaTarjeta = document.createElement("div");
+        var nuevaTarjeta = document.createElement("form");
         var textarea = document.createElement("textarea");
         var btnAñadir = document.createElement("button");
         var btnEliminar = document.createElement("button");
@@ -76,19 +76,28 @@ window.addEventListener("load", cargarPagina);
         textarea.classList.add("textarea");
         btnAñadir.setAttribute("type", "submit");
 
-        contenedorLista.appendChild(nuevaTarjeta);
+        this.parentElement.appendChild(nuevaTarjeta);
         nuevaTarjeta.appendChild(textarea);
         nuevaTarjeta.appendChild(btnAñadir);
         nuevaTarjeta.appendChild(btnEliminar);
 
-        textarea.textContent = textarea.value;
+        textarea.focus();
 
         btnAñadir.textContent = "Añadir";
         btnEliminar.textContent = "X";
 
-        btnAñadir.addEventListener("click", agregarTarjeta);
-        btnEliminar.addEventListener("click", eliminar);
+        btnAñadir.addEventListener("click", añadirTarjeta);
+    }
 
+    function añadirTarjeta() {
+
+        var contenedorTarjeta = document.createElement("div");
+
+        contenedorTarjeta.classList.add("contenedor-tarjeta");
+
+        contenedorTarjeta.textContent = this.parentElement.children[0].value;
+
+        this.parentElement.insertBefore(contenedorTarjeta,this.parentElement.children[1]);
     }
 
 })();
