@@ -1,48 +1,94 @@
+;(function(){
+
 window.addEventListener("load", cargarPagina);
 	
 	var contenedorPadre = document.getElementById("contenedorPadre");
-    var contenedor = document.getElementById("contenedor");
-    var lista = document.getElementById("lista");
+    var contenedorLista = document.getElementById("contenedorLista");
+    var span = document.getElementById("span");
     var formulario = document.getElementById("formulario");
     var input = document.getElementById("input");
     var btnGuardar = document.getElementById("btnGuardar");
+    var btnCerrar = document.getElementById("btnCerrar");
 
     function cargarPagina(){
-    	lista.addEventListener("click", aparecerLista);
-    	btnGuardar.addEventListener("click", agregarTarjeta);
+    	span.addEventListener("click", aparecerLista);
     }
 
     function aparecerLista(){
-    	lista.classList.add("none");
+        span.classList.add("none");
         formulario.classList.remove("none");
+        
+        input.value = "";
+
+        input.focus();
+
+        btnGuardar.addEventListener("click", agregar);
+        btnCerrar.addEventListener("click", cerrar);   
     }
 
-    function agregarTarjeta(e){
-    	e.preventDefault();
-    	formulario.classList.add("none");
-    	lista.classList.remove("none");
+    function cerrar(){
+        formulario.classList.add("none");
+        span.classList.remove("none");
+    }
 
-    	var padre = this.parentElement.parentElement;
+    function agregar(e){
+        e.preventDefault();
+        formulario.classList.add("none");
+        agregarLista();
+        // agregarContenedor();
+    }
 
-        var contenedorLista = document.createElement("div");
-    	var textoInput = document.createElement("div");
-        var linkTarjeta = document.createElement("div");
+    function agregarLista(){
 
-        textoInput.textContent = input.value;
+        var nuevaLista = document.createElement("div");
+    	var tituloLista = document.createElement("div");
+        var linkTarjeta = document.createElement("a");
+
+        tituloLista.textContent = input.value;
         linkTarjeta.innerText = "Añadir una tarjeta";
 
         input.value = "";
 
-        contenedorLista.classList.add("contenedor-lista");
-        textoInput.classList.add("titulo-lista");
-        linkTarjeta.classList.add("link-tarjeta");
+        nuevaLista.classList.add("nueva-lista");
+        tituloLista.classList.add("titulo-lista");
+        linkTarjeta.setAttribute("href", "#");
 
-        contenedorPadre.appendChild(contenedorLista);
-        padre.appendChild(linkTarjeta);
-        padre.insertBefore(textoInput, padre.children[0]);
+        contenedorLista.appendChild(nuevaLista);
+        nuevaLista.appendChild(tituloLista);
+        nuevaLista.appendChild(linkTarjeta);
 
-        contenedorLista.insertBefore(lista, contenedorLista.children[0]);
-        contenedorLista.insertBefore(formulario, contenedorLista.children[1]);
+        nuevaLista.insertBefore(span, nuevaLista.children[0]);
+        nuevaLista.insertBefore(formulario, nuevaLista.children[1]);
 
+        linkTarjeta.addEventListener("click", agregarTarjeta);
+    }
+
+    function agregarTarjeta(){
+
+        this.classList.add("none");
+
+        var nuevaTarjeta = document.createElement("div");
+        var textarea = document.createElement("textarea");
+        var btnAñadir = document.createElement("button");
+        var btnEliminar = document.createElement("button");
+
+        nuevaTarjeta.classList.add("nueva-tarjeta");
+        textarea.classList.add("textarea");
+        btnAñadir.setAttribute("type", "submit");
+
+        contenedorLista.appendChild(nuevaTarjeta);
+        nuevaTarjeta.appendChild(textarea);
+        nuevaTarjeta.appendChild(btnAñadir);
+        nuevaTarjeta.appendChild(btnEliminar);
+
+        textarea.textContent = textarea.value;
+
+        btnAñadir.textContent = "Añadir";
+        btnEliminar.textContent = "X";
+
+        btnAñadir.addEventListener("click", agregarTarjeta);
+        btnEliminar.addEventListener("click", eliminar);
 
     }
+
+})();
